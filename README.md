@@ -56,4 +56,7 @@ Capa Infrastructure (data) : Ofrece implementaciones específicas para las inter
 
 
 
-Es una sección muy importante, especialmente por la configuración de variables de entorno, ya que esto es lo que permite cambiar la aplicación si estamos en producción, staging, testing o development.
+
+3ra Parte : Insercción de logers MongoDB y PostgreSql
+  - Docker
+  
