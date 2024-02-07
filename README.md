@@ -47,8 +47,7 @@
 # EXPLICACIÓN DE LA APLICACION
 ## NOC
 
-- Es un pequeño sistema de monitoreo que nos permitira hacer seguimiento de nuestros servicios a travez de logs de .
-Y si algo falla la aplicación te notificara a travez de un correo.
+- Es un pequeño sistema de monitoreo que nos permitirá hacer seguimiento de nuestros servicios a mediante de logs que se almacenaran en distintas BD y en un directorio de logs. Y también te notificara a través de un correo.
 
 - Esta aplicación se ejecutara en un intervalo de tiempo configurado (CRON Task - Tareas cronometradas)
 
