@@ -1,6 +1,6 @@
-##  CONFIGURACIONES 
+#  CONFIGURACIONES 
 
-# Obtener Gmail Key 
+## Obtener Gmail Key 
 
 - Activar **Verificacion en dos pasos**
 - Google AppPasswords : Crear una contraseña de aplicacion
