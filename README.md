@@ -27,9 +27,16 @@
 
 7. Para testing Ejecutar 
    ````
+   npm run test
+   ```` 
+7. Para mantener corriendo el testing Ejecutar 
+   ````
    npm run test:watch
    ```` 
-
+8. Para generar archivo coverage  
+  ````
+   npm run test:coverage
+   ```` 
 
 ## ENV
   **Configurar para envio de correo**

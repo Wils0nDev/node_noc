@@ -5,6 +5,7 @@ coverage/
 
 logs/
 .env
+.env.test
 mongo/
 postgres/
 mongo-test/
