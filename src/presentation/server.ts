@@ -1,3 +1,4 @@
+import { envs } from "../config/envs.plugin";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
 import { CheckService } from "../domain/use-cases/checks/check-service";
 import { CheckServiceMultiple } from "../domain/use-cases/checks/check-service-multiples";
@@ -49,18 +50,17 @@ export class Server {
     public static async start(){
         console.log('Server started....');
 
-        //*Envio de correo con mi archivo de log
+        //*Caso de uso de envio de correo con mi archivo de log
         new SendLogEmail(
             emailService,
-            FsLogRepository
+            FsLogRepository,
+            envs.SEEND_EMAIL
+
         ).execute(
-            ['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com']
+            ['correo1@gmail.com','correo2@gmail.com']
         )
-       emailService.sendEmailWithFileSystemLogs(['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com'])
       
 
-    //     const logs = await PosLogRepository.getLogs(LogSeverityLevel.high)
-    //    console.log(logs)
 
 
     //* Log Multiples

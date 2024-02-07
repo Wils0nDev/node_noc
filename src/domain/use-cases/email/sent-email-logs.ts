@@ -11,12 +11,17 @@ export class SendLogEmail implements SendLogEmailUseCase {
     constructor(
         private readonly emailServices : EmailServices,
         private readonly logRepository: LogRepository,
+        private readonly seendEmail: boolean,
     ) {     
     }
     async execute(to: string | string[]) {
 
+      if(!this.seendEmail) return true
+
       try {
+
           const isSent = await this.emailServices.sendEmailWithFileSystemLogs(to)
+
           if(!isSent){
             throw new Error("Email log was not sent");
           }

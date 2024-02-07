@@ -42,6 +42,7 @@
   **Configurar para envio de correo**
   - MAILER_EMAIL=tucorreo@gmail.com
   - MAILER_SECRET_KEY=llave_que_creaste_en_apppasswords
+  - SEEND_EMAIL=true -> para enviar correo
 
 # EXPLICACIÓN DE LA APLICACION
 ## NOC
