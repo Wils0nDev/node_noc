@@ -8,6 +8,7 @@
 
 ## Dev
 1. Clonar el archivo .env.template a .env
+    - En el archivo server.ts, colocar los correos al que enviaras.
 2. Configurar las variables de entorno
 3. Ejecutar el comando npm install
 4. Levantar las bases de datos con el comando
