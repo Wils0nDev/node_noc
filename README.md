@@ -43,6 +43,7 @@
   - MAILER_EMAIL=tucorreo@gmail.com
   - MAILER_SECRET_KEY=llave_que_creaste_en_apppasswords
 
+# EXPLICACIÓN DE LA APLICACION
 ## NOC
 
 - Es un pequeño sistema de monitoreo que nos permitira hacer seguimiento a travez de logs de nuestros servicios.
