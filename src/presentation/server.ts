@@ -17,6 +17,8 @@ import { EmailServices } from "./email/email.service";
 // const fileSystemLogRepository = new LogRepositoryImpl(
 //     new FileSystemDatasource()
 // )
+
+
 const FsLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource()
 )
@@ -29,7 +31,10 @@ const MongLogRepository = new LogRepositoryImpl(
  const PosLogRepository = new LogRepositoryImpl(
    new PostrgresLogDataSource()
  )
+
 const LogsRepository = [FsLogRepository,MongLogRepository,PosLogRepository]
+
+
 
 //creamos nuestra instancia de nuestro servicio de email, para inyectarlo en nuestro caso de uso
 const emailService = new EmailServices()
@@ -43,26 +48,28 @@ export class Server {
     //static : nos permite hacer referencia a la clase y metodo sin instanciarla
     public static async start(){
         console.log('Server started....');
-        //Envio de correo con nuestro caso de uso
-        // new SendLogEmail(
-        //     emailService,
-        //     LogRepository
-        // ).execute(
-        //     ['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com']
-        // )
-       // emailService.sendEmailWithFileSystemLogs(['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com'])
+
+        //*Envio de correo con mi archivo de log
+        new SendLogEmail(
+            emailService,
+            FsLogRepository
+        ).execute(
+            ['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com']
+        )
+       emailService.sendEmailWithFileSystemLogs(['ewilsonvc.dev@gmail.com','coronadoew18@gmail.com'])
       
 
     //     const logs = await PosLogRepository.getLogs(LogSeverityLevel.high)
     //    console.log(logs)
 
 
-    //--- Caso de uso de multiples log
-    //CronJob para generar recgistros cada cierto tiempo
+    //* Log Multiples
+    //CronJob para generar registros cada cierto tiempo
        CronService.createJob('*/5 * * * * *',()=>{
            //new CheckService().execute('https://google.com');
            const url = 'https://googleWEQWE.com'
-           //aqui envio los callbacks q me retornaran los mensajes de succes o error
+
+           //En mi caso de uso enío los callbacks q me retornaran los mensajes de succes o error
            new CheckServiceMultiple(
             LogsRepository,
             ()=> console.log(`${url} is ok`),
@@ -70,7 +77,9 @@ export class Server {
            ).execute(url);
         });
 
-    //--- Caso de uso de un solo log
+
+
+    //* Log Simple
        //CronJob para generar recgistros cada cierto tiempo
     //    CronService.createJob('*/5 * * * * *',()=>{
     //        //new CheckService().execute('https://google.com');

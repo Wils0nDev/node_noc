@@ -1,62 +1,127 @@
-#Proyecto NOC
+##  CONFIGURACIONES 
 
-El objetivo es crear una serie de tareas usando Arquitectura Limpia con TypeScript
+# Obtener Gmail Key 
 
-1era Parte ----------------------------------
+- Activar **Verificacion en dos pasos**
+- Google AppPasswords : Crear una contraseña de aplicacion
+[Google AppPasswords](https://myaccount.google.com/u/0/apppasswords?rapt=AEjHL4MZMyQSPzAAL6obJ6Xhuj9ydPxOzpvX4rfPc6sJYMsBN3VcEXJ32kVUpMoUtly6sO_IYvNOcDmsQVj1ZNlT3AaTNfvuTCiM1aiw52dRSCzYoot1h-k)
 
-Temas puntuales de la sección
-Esta sección empezaremos la creación del NOC, y puntualmente tocaremos temas como:
+## Dev
+1. Clonar el archivo .env.template a .env
+2. Configurar las variables de entorno
+3. Ejecutar el comando npm install
+4. Levantar las bases de datos con el comando
+ ```
+ docker compose up -d
+ ```
+
+5. Ejecutar el comando para migrar prisma
+  ```
+  npx prisma migrate dev
+  ```
+   
+6. Ejecutar
+  ```
+   npm run dev
+  ```
+
+7. Para testing Ejecutar 
+   ````
+   npm run test:watch
+   ```` 
 
 
+## ENV
+  **Configurar para envio de correo**
+  - MAILER_EMAIL=tucorreo@gmail.com
+  - MAILER_SECRET_KEY=llave_que_creaste_en_apppasswords
 
-Introducción a la Arquitectura Limpia
+## NOC
 
-Introducción a la inyección de dependencias (DI - Dependency injection)
+- Es un pequeño sistema de monitoreo que nos permitira hacer seguimiento a travez de logs de nuestros servicios.
+Y si algo la aplicación te notificara a travez de un correo.
 
-JSON-Server
+- Esta aplicación se ejecutara en un intervalo de tiempo configurado (CRON Task - Tareas cronometradas)
 
-Casos de Uso
+- Los Logs generados se podran guardaran en diferentes datasources o destinos de alojamiento
+   - FileSystem
+   - MongoDB
+   - PostgreSQL
 
-CRON Task - Tareas cronometradas
 
-Esta sección cuenta con una explicación de cómo lograremos el objetivo de la creación de nuestro sistema de monitoreo de forma global, que a lo largo de las próximas secciones lo haremos funcionar.
+## Clean Architecture
+
+Para esto aplicación haremos uso de Clean Architecture, en el cual veremos los siguientes puntos
+
+CAPAS : 
+  - Domain
+  - Presentation
+  - InfraEstructure
+
+Puntos
+  - Entidades
+  - Casos de uso
+  - Patro Repository
+  - Data source
+  - Inyección de dependencias
+
+## BASE DE DATOS Y ORM
+ - Para este proyecto haremos uso de 
+   - PostgreSQL -> Prisma ORM
+   - MongoDB -> Mongoose
+
+## TESTING 
+
+- Testaremos nuestra aplicación haciendo uso de 
+  - Jest
+  - En cada directorio se podrá encontra un archivo de 'test'
 
 
-2da Parte ----------------------------------
-ARQUITECTURA LIMPIA
-En esta sección trabajaremos con el patrón "Repository" para poder construir una forma intercambiable de orígenes de datos.
+## CONECEPTOS DE ARQUITECTURA LIMPIA
 
 Puntualmente veremos:
 
-Capa Presentacion : 
+La capa de infraestructura : Implementará interfaces desde la capa de aplicación para proporcionar funcionalidad para acceder a sistemas externos. Estos estarán conectados al contenedor de IoC, generalmente en la capa de presentación.
+
+   - repositories : 
+          - Implementa el patron Repository 
+          - Es la forma en como nosotros mandaremos a llamar a nuestro dataSource, en pocas palabras este se conecta con el dataSource
+   - datasources : 
+          - Implementa las distintas maneras de alojar nuestros logs 
+          - Aqui haremos uso de nuesto de las diferentes BD
+
+La capa de presentación : generalmente tendrá una referencia a la capa de infraestructura , pero solo para registrar las dependencias con el contenedor de IoC. 
+  
+  - Referencia al datasource : Esto quiere decir que instanciaremos cada uno de nuestros datasources para posteriore mente inyectatlo en nustro repositorio
+                                    - FileSystem
+                                    - MongoDB
+                                    - PostgreSQL
+
+  - Implementación del patron repository : aqui es donde se inyecta el datasource
+     - El patrón repository es un patrón de diseño para ubicar el acceso a datos en la capa externa de la aplicación y así mantener el dominio agnóstico a sus fuentes de datos (y sobre todo a su implementación).
 
 
+Capa Presentacion : La capa de presentación es el punto de entrada al sistema desde el punto de vista del usuario. Sus principales preocupaciones son enrutar solicitudes a la capa de aplicación y registrar todas las dependencias en el contenedor de IoC. 
+                          - Controladores MVC
+                          - Controladores API web
+                          - Arrogancia / NSwag
+                          - Autenticación/Autorización
 
-Capa Domain : en esta capa irán las reglas por las cuales se regira la apliación a un nivel muy alto
-1 Entidades : Es el modelo de datos de nuestra aplicación, basicamente es lo que llegara a nuestra BD
+Capa Domain : La capa de dominio es el corazón de su aplicación y responsable de sus modelos principales. Los modelos deben ignorar la persistencia y encapsular la lógica siempre que sea posible. 
 
-2 DataSources : Contiene los orignes de datos, ejemplo:
-                - File
-                - MongoDB
-                -PostgreSql, etc
+            - Domain Layer
+            - Entities
+            - Value Objects
+            - Aggregates (if doing DDD)
+            - Enumerations
 
-3 Repositorios (Repository) : Es la forma en como nosotros mandaremos a llamar a nuestro dataSource, en pocas palabras este se conecta con el dataSource
+    Lo que usaremos: 
+    1 Entidades : Es el modelo de datos de nuestra aplicación, basicamente es lo que llegara a nuestra BD
 
-4 Use Cases : Son reglas de negocios puntuales que hacen algo en especifico, ejemplo : enviar un correo, verificar si hubo un error en algun servico.
-4 Clases Abstractas
+    2 DataSources : Contiene las reglas de los orignes de datos, ejemplo:
 
+    3 Repository : Contiene las reglas de del patron repository
 
-Esquema : 
-                     Use case ----> Repository ------> DataSource
+    4 Casos de uso : contienen las reglas del negocio puntuales que hacen algo en especifico, ejemplo : enviar un correo, verificar si hubo un error en algun servico.
 
-Capa Infrastructure (data) : Ofrece implementaciones específicas para las interfaces presentadas en las capas de dominio, ejemplo
-  - Implementación del datasource
-  - Implementación del repository : aqui es donde se inyecta el datasource
-
-
-
-
-
-3ra Parte : Insercción de logers MongoDB y PostgreSql
-  - Docker
   

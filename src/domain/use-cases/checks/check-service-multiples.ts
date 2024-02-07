@@ -1,21 +1,26 @@
 import { LogEntity, LogSeverityLevel } from '../../entities/log.entity';
 import { LogRepository } from '../../repository/log.repository';
 
-//Este caso de uso me servira para  verificar si hubo algun error en la llamada de algun servicio
-//y hará uso del LogRepository para grabar los logs, por ultimo retornara mensajes de succes o error mendiante
-//2 funciones callback
+
+//* Este caso de uso me servira para  verificar si hubo algun error en la llamada de algun servicio
+//* y hará uso del LogRepository para grabar los logs, por ultimo retornara mensajes de succes o error mendiante
+//* 2 funciones callback 
+
+
+
 interface CheckServiceUseCase { 
     execute(url:string) : Promise<boolean>
 }
 
-//genero dos collbacks para separar responsabilidades, mediante estos callbacks podre enviar los mensajes
-//de success o errror al server.ts
+
+//* genero dos collbacks para separar responsabilidades, mediante estos callbacks podre enviar los mensajes
+//* de success o errror al server.ts
 type SuccessCallback = () => void;
 type ErrorCallback = (error : string ) => void;
 
 export class CheckServiceMultiple implements CheckServiceUseCase{
-    //inyecto los callbacks que me enviaran los mensajes
-    //aqui tmb inyectamos a nuestro repositorio que llamara a nuestro datasource
+    //* inyecto los callbacks que me enviaran los mensajes
+    //* aqui tmb inyectamos a nuestro repositorio que llamara a nuestro datasource
     constructor(
         private readonly logRepository: LogRepository[],
         private readonly successCallback : SuccessCallback,

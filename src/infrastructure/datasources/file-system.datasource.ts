@@ -21,6 +21,7 @@ export class FileSystemDatasource implements LogDataSource {
             //creamos el logs/
             fs.mkdirSync(this.logPath);
         }
+        
         [
             this.allLogsPath,
             this.mediumLogsPath,
